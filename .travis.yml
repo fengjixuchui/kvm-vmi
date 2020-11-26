@@ -34,8 +34,11 @@ install:
   - vagrant plugin install vagrant-reload
 
 script:
-  # open firewall for NFS
+  # ensure firewalld is running
   - sudo systemctl start firewalld
+  # restart libvirt to recreate iptables rules
+  - sudo systemctl restart libvirtd
+  # open firewall for NFS
   - sudo firewall-cmd --permanent --add-service=nfs
   - sudo firewall-cmd --permanent --add-service=rpc-bind
   - sudo firewall-cmd --permanent --add-service=mountd
