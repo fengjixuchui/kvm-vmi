@@ -33,6 +33,11 @@ install:
   - vagrant plugin install vagrant-reload
 
 script:
+  # open firewall for NFS
+  - sudo firewall-cmd --permanent --add-service=nfs
+  - sudo firewall-cmd --permanent --add-service=rpc-bind
+  - sudo firewall-cmd --permanent --add-service=mountd
+  - sudo firewall-cmd --reload
   - pushd vagrant
   # disable winxp
   - sed -i -E "s/^(\s*'winxp'\:\s).*/\1false,/g" Vagrantfile
