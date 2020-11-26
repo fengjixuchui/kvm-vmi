@@ -33,8 +33,6 @@ install:
 
 script:
   - pushd vagrant
-  # use rsync since NFS doesn't work
-  - sed -i -E "s:^(\s*)libvirt_sync_folder_type =.*:\1libvirt_sync_folder_type = 'rsync':" Vagrantfile
   # disable winxp
   - sed -i -E "s/^(\s*'winxp'\:\s).*/\1false,/g" Vagrantfile
   # disable ubuntu
@@ -44,6 +42,7 @@ script:
   # enable downloading VM images instead of building them
   - sed -i -E "s/^(\s*download_vm_image\:\s).*/\1true/" ansible/playbook_2.yml
   # we are not in libvirt group, so use sudo
+  # nfs requires root privileges to edit /etc/exports
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - sudo -E vagrant up --provider=libvirt
   - kill %1
