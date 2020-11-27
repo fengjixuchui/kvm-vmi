@@ -18,11 +18,6 @@ addons:
       - ruby-dev
       - nfs-kernel-server
 
-# Cache the big Vagrant boxes
-cache:
-  directories:
-  - /home/travis/.vagrant.d/boxes
-
 install:
   - wget -nv https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.deb -O vagrant.deb
   - sudo dpkg -i vagrant.deb
@@ -46,6 +41,10 @@ script:
   # nfs requires root privileges to edit /etc/exports
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - sudo -E vagrant up --provider=libvirt
+  # debug NFS
+  - sudo -E vagrant ssh -c 'mount -v -t nfs -o vers=4 192.168.121.1:/home/travis/build/KVM-VMI/kvm-vmi /vagrant'
+  - sudo -E vagrant ssh -c 'rpcinfo -u 192.168.121.1 nfs'
+  - sudo -E vagrant ssh -c 'showmount -e 192.168.121.1'
   - kill %1
   # start win7 VM
   - sudo -E vagrant ssh -c 'virsh -c qemu:///system start win7'
