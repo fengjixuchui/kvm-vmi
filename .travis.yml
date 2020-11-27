@@ -3,6 +3,7 @@ dist: focal
 language: minimal
 git:
   depth: 1
+  submodules: false
 addons:
   apt:
     packages:
@@ -15,7 +16,6 @@ addons:
       - qemu-kvm
       - qemu-utils
       - ruby-dev
-      - ansible
       - nfs-kernel-server
       - firewalld
 
