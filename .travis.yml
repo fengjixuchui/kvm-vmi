@@ -17,7 +17,6 @@ addons:
       - qemu-utils
       - ruby-dev
       - nfs-kernel-server
-      - firewalld
 
 # Cache the big Vagrant boxes
 cache:
@@ -34,15 +33,6 @@ install:
   - vagrant plugin install vagrant-reload
 
 script:
-  # ensure firewalld is running
-  - sudo systemctl start firewalld
-  # restart libvirt to recreate iptables rules
-  - sudo systemctl restart libvirtd
-  # open firewall for NFS
-  - sudo firewall-cmd --permanent --add-service=nfs
-  - sudo firewall-cmd --permanent --add-service=rpc-bind
-  - sudo firewall-cmd --permanent --add-service=mountd
-  - sudo firewall-cmd --reload
   - pushd vagrant
   # disable winxp
   - sed -i -E "s/^(\s*'winxp'\:\s).*/\1false,/g" Vagrantfile
