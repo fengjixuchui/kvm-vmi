@@ -40,7 +40,7 @@ script:
   # we are not in libvirt group, so use sudo
   # nfs requires root privileges to edit /etc/exports
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-  - sudo -E vagrant up --provider=libvirt
+  - sudo -E vagrant up --provider=libvirt --no-destroy-on-error
   # debug NFS
   - sudo -E vagrant ssh -c 'mount -v -t nfs -o vers=4 192.168.121.1:/home/travis/build/KVM-VMI/kvm-vmi /vagrant'
   - sudo -E vagrant ssh -c 'rpcinfo -u 192.168.121.1 nfs'
