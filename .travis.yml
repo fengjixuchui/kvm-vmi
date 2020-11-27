@@ -42,7 +42,7 @@ script:
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - sudo -E vagrant up --provider=libvirt --no-destroy-on-error
   # debug NFS
-  - sudo -E vagrant ssh -c 'sudo mount -v -t nfs -o vers=4 192.168.121.1:/home/travis/build/KVM-VMI/kvm-vmi /vagrant'
+  - sudo -E vagrant ssh -c 'sudo mount -vvvvvv -t nfs -o vers=4 192.168.121.1:/home/travis/build/KVM-VMI/kvm-vmi /vagrant'
   - sudo -E vagrant ssh -c 'sudo rpcinfo -u 192.168.121.1 nfs'
   - sudo -E vagrant ssh -c 'sudo showmount -e 192.168.121.1'
   - kill %1
